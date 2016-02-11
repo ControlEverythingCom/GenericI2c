@@ -1,5 +1,9 @@
 #include "GenericI2c.h"
 
+i2cDevices:i2cDevices(){
+    
+}
+
 String i2cDevices::updateLog(){
     return Log;
 }
