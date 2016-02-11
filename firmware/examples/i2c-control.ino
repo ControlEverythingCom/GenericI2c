@@ -1,14 +1,10 @@
-
-// This #include statement was automatically added by the Particle IDE.
 #include "i2c-devices.h"
-
 
 String myLog = "";
 String temperature = "";
 String relayStatus = "";
 i2cDevices devices;
 int counter = 0;
-
 
 int scanDevices(String a);
 int sendI2cCommand(String a);
@@ -35,14 +31,15 @@ void loop() {
     }
 }
 
-
 int scanDevices(String a){
     devices.scan();
     return 1;
 }
+
 int sendI2cCommand(String a){
     return devices.sendCommands(a);
 }
+
 int readI2cCommand(String a){
     return devices.readI2cCommand(a);
 }
@@ -56,6 +53,7 @@ void processTemp(int vals[]){
     
     temperature = String(tempF,2);
 }
+
 void processRelays(int val[]){
     relayStatus = val[0];
     relayStatus += " - Relay 1 is ";
