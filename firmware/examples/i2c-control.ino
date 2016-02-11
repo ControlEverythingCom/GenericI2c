@@ -6,7 +6,7 @@ String temperature = "";
 String relayStatus = "";
 
 //Instantiate I2C class
-I2cDevices devices;
+i2cDevices devices;
 
 //Set addresses for connected devices
 int relayAddr = 32;
