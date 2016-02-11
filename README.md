@@ -1,5 +1,5 @@
 # About
----
+
 This library provides a class called i2cDevices to manage generic control of any i2c slaves connected to the master.
 
 ### Developer Information
