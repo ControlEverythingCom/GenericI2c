@@ -7,7 +7,7 @@ int indexOfNth(String str, char c, int ind);
 
 class i2cDevices{
 public:
-    void i2cDevices();
+    i2cDevices(void);
     void init();
     bool addDevice(int address);
     bool addDevice(int address, String initCmds);
