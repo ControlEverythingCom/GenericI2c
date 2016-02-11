@@ -1,7 +1,7 @@
 #include "spark_wiring.h"
 #include "spark_wiring_i2c.h"
 #include "spark_wiring_constants.h"
-#include "spark_wiring_usbserial.h"
+
 
 int indexOfNth(String str, char c, int ind);
 
@@ -13,18 +13,27 @@ public:
     bool deviceExists(int address);
     String getDevice(int address);
     String getDevice(int index, int &address);
+    
     int sendCommand(String command);
+    int sendCommand(int addr, String command);
     int sendCommands(String command);
+    int sendCommands(int addr, String command);
+    
     int processCommand(String command);
+    int processCommand(int addr, String command);
+    
     int readI2cCommand(String command);
+    int readI2cCommand(int addr, String command);
     int readI2cCommand(String command, void (*fptr)(int*));
+    int readI2cCommand(int addr, String command, void (*fptr)(int*));
+    
     int read(int addr, int registerAddress, int bytes, int* buff);
     String updateLog();
     int initDevices();
     String scan();
 private:
     bool initialized = FALSE;
-    String addresses = "32 72";
-    String initCommands = "32,0,252|32,6,252 72,1,96";
+    String addresses = "";
+    String initCommands = "";
     String Log = "";
 };
