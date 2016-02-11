@@ -16,7 +16,7 @@ int i2cDevices::initDevices(){
     String commands = getDevice(index, addr);
     
     while(addr>0){
-        status = sendCommands(commands);
+        status = sendCommands(addr, commands);
         index++;
         addr=0;
         commands = getDevice(index, addr);
@@ -27,6 +27,14 @@ bool i2cDevices::addDevice(int address){
     if (!deviceExists(address)) {
         addresses += address + " ";
         initCommands +=  "0 ";
+        return true;
+    }
+    return false;
+}
+bool i2cDevices::addDevice(int address, String initCmds){
+    if (!deviceExists(address)) {
+        addresses += String(address) + " ";
+        initCommands += initCmds + " ";
         return true;
     }
     return false;
@@ -47,14 +55,6 @@ bool i2cDevices::deviceExists(int address){
     return false;
 }
 
-bool i2cDevices::addDevice(int address, String initCmds){
-    if (!deviceExists(address)) {
-        addresses += address + " ";
-        initCommands += initCmds + " ";
-        return true;
-    }
-    return false;
-}
 String i2cDevices::getDevice(int address){
     char * addrs = new char[addresses.length() + 1];
     strcpy(addrs, addresses.c_str());
@@ -119,11 +119,46 @@ String i2cDevices::getDevice(int index, int &addr){
         }
     }
 }
+int i2cDevices::sendCommand(int addr, String command){
+    int tries=0;
+    int status=1;
+    while (tries<3 && status!=0) {
+        status = processCommand(addr, command);
+        tries++;
+    }
+    return status;
+};
 int i2cDevices::sendCommand(String command){
     int tries=0;
     int status=1;
     while (tries<3 && status!=0) {
         status = processCommand(command);
+        tries++;
+    }
+    return status;
+};
+int i2cDevices::sendCommands(int addr, String command){
+    int tries=0;
+    int status=1;
+    //char * cmdstr;
+    //char * p;
+    int del = command.indexOf('|');
+    String current;
+    if (del == -1) return sendCommand(addr, command);
+    while (del > 0) {
+        tries=0;
+        current = command.substring(0, del);
+        command = command.substring(del+1);
+        del = command.indexOf('|');
+        while (tries<3 && status!=0){
+            status = processCommand(addr, current);
+            tries++;
+        }
+    }
+    tries=0;
+    status=1;
+    while (tries<3 && status!=0){
+        status = processCommand(addr, command);
         tries++;
     }
     return status;
@@ -154,6 +189,33 @@ int i2cDevices::sendCommands(String command){
     }
     return status;
 };
+int i2cDevices::processCommand(int addr, String command){
+     //copy command into a char array
+    char * cmdstr = new char[command.length() + 1];
+    strcpy(cmdstr, command.c_str());
+    
+    //initialize variable
+    int c = 0;
+    
+    //grab first part of string
+    char * p = strtok(cmdstr, ",");
+    
+    Wire.beginTransmission(addr);
+    //loop through commands (',' delimited), using the first as the address and subsequent ones as commands
+    while (p != NULL) {
+        //copy command into int
+        c = atoi(p);
+        Wire.write(c);
+        //grab next part of string
+        p = strtok(NULL, ",");
+    }
+    
+    //end i2c transmission
+    int status = (int)Wire.endTransmission();
+    delete cmdstr;
+    
+    return status;
+}
 int i2cDevices::processCommand(String command){
      //copy command into a char array
     char * cmdstr = new char[command.length() + 1];
@@ -200,6 +262,17 @@ int i2cDevices::readI2cCommand(String command){
     
     return status;
 }
+int i2cDevices::readI2cCommand(int addr, String command){
+    int s = command.indexOf(',');
+    s = command.indexOf(',');
+    int r = command.substring(0, s).toInt();
+    int c = command.substring(s+1).toInt();
+    int buff[c];
+    
+    int status = read(addr, r, c, buff);
+    
+    return status;
+}
 int i2cDevices::readI2cCommand(String command, void (*fptr)(int*)){
     int s = command.indexOf(',');
     int a = command.substring(0, s).toInt();
@@ -210,6 +283,18 @@ int i2cDevices::readI2cCommand(String command, void (*fptr)(int*)){
     int buff[c];
     
     int status = read(a, r, c, buff);
+    
+    fptr(buff);
+    return status;
+}
+int i2cDevices::readI2cCommand(int addr, String command, void (*fptr)(int*)){
+    int s = command.indexOf(',');
+    s = command.indexOf(',');
+    int r = command.substring(0, s).toInt();
+    int c = command.substring(s+1).toInt();
+    int buff[c];
+    
+    int status = read(addr, r, c, buff);
     
     fptr(buff);
     return status;
