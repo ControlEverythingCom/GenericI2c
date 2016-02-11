@@ -1,6 +1,6 @@
 #include "GenericI2c.h"
 
-i2cDevices:i2cDevices(){
+i2cDevices::i2cDevices(){
     
 }
 
