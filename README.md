@@ -116,7 +116,8 @@ void processRelays(int val[]){
         relayStatus += "off";
     }
 }
-    
+```
+
 ### Public accessible methods
 ---
 ```cpp
