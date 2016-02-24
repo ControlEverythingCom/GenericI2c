@@ -13,7 +13,7 @@ int relayAddr = 32;
 int tempAddr = 72;
 
 void processTemp(int vals[]);
-void processRelays(int val[])
+void processRelays(int val[]);
 
 void setup() {
     Particle.variable("relayStatus", relayStatus);
