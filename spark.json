@@ -1,7 +1,7 @@
 
 {
     "name": "GenericI2c",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Trey Felton <trey@tomadoh.com>",
     "license": "GNU",
     "description": "Library providing class for controlling and reading i2c devices"
