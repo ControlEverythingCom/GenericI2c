@@ -15,11 +15,11 @@ NCD has been designing and manufacturing computer control products since 1995. W
 ---
 
 The libary must be imported into your application. This can be done through the Particle WEB IDE:
-1. Click Libraries
-2. Select GenericI2c (type into textbox to filter libraries)
-3. Click "Include in App" button
-4. Select the App you want to include the library in
-5. Click Add to this app
+ 1. Click Libraries
+ 2. Select GenericI2c (type into textbox to filter libraries)
+ 3. Click "Include in App" button
+ 4. Select the App you want to include the library in
+ 5. Click Add to this app
 
 For more information see Particles's documentation
 
