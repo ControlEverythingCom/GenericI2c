@@ -36,8 +36,8 @@ GenericI2c i2cController;
 ```
 
 Here is an example use case for the class, triggering relays based on a temperature using the following products:
-- https://www.controleverything.com/content/Temperature?sku=MCP9808_I2CS
-- https://www.controleverything.com/content/Relay-Controller?sku=MCP23008_SCIO6R2G5V1_1A
+- [MCP9808_I2CS](https://www.controleverything.com/content/Temperature?sku=MCP9808_I2CS)
+- [MCP23008_SCIO6R2G5V1_1A](https://www.controleverything.com/content/Relay-Controller?sku=MCP23008_SCIO6R2G5V1_1A)
 
 ```cpp
 // This #include statement was automatically added by the Particle IDE.
