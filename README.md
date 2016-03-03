@@ -32,7 +32,7 @@ Once the Library is included in your applicaiton you should see an include state
 ```
 Now you need to instanciate an object of the library for use in your application like this:
 ```cpp
-GenericI2c i2cController;
+i2cDevices i2cController;
 ```
 
 Here is an example use case for the class, triggering relays based on a temperature using the following products:
